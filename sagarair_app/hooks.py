@@ -1,7 +1,7 @@
 app_name = "sagarair_app"
 app_title = "Sagarair APP"
-app_publisher = "gskishan123@gmail.com"
-app_description = "This is for devlopment Purpose"
+app_publisher = "GS Kishan"
+app_description = "This is for Development Purpose"
 app_email = "gskishan123@gmail.com"
 app_license = "mit"
 

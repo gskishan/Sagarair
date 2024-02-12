@@ -1,6 +1,6 @@
 ## Sagarair APP
 
-This is for devlopment Purpose
+This is for Development Purpose
 
 #### License
 
