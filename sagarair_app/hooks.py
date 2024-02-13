@@ -216,5 +216,5 @@ doctype_js = {"BOM" : "sagarair_app/Client_script/sc_2.js"}
 
 fixtures = [
     # export all records from the Category table
-    "Client Script"
+   # "Client Script"
 ]
