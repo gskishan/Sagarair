@@ -213,3 +213,8 @@ app_license = "mit"
 # auth_hooks = [
 # 	"sagarair_app.auth.validate"
 # ]
+
+fixtures = [
+    # export all records from the Category table
+    "Client Script"
+]
