@@ -1,0 +1,91 @@
+frappe.ui.form.on('Sales Order', {
+    refresh: function(frm) {
+        // Open MR Button
+        frm.add_custom_button(__('Open MR'), function() {
+            frappe.set_route('List', 'Material Request', {'sales_order': frm.doc.name, 'status': 'Manufacture'});
+        });
+
+        // Open WO Button
+        frm.add_custom_button(__('Open WO'), function() {
+            frappe.set_route('List', 'Work Order', {'sales_order': frm.doc.name});
+        });
+
+        // Open Service Visits Button
+        frm.add_custom_button(__('Open Service Visits'), function() {
+            frappe.set_route('List', 'Service Visit Register', {'sales_order_reference': frm.doc.name});
+        });
+
+        // Open Delivery Notes Button
+        frm.add_custom_button(__('Open Delivery Notes'), function() {
+            frappe.set_route('List', 'Delivery Note', {'sales_order_reference': frm.doc.name});
+        });
+
+        // Fetch and calculate completed work orders
+        frappe.call({
+            method: 'frappe.client.get_list',
+            args: {
+                doctype: 'Work Order',
+                fields: ['name', 'total_incurred_cost'],
+                filters: {
+                    docstatus: 1,
+                    status: 'Completed',
+                    sales_order: frm.doc.name
+                }
+            },
+            callback: function(response) {
+                if (response.message) {
+                    const total_cost = response.message.reduce((acc, wo) => acc + wo.total_incurred_cost, 0);
+                    frm.set_value('cost_incurred', total_cost);
+                    const margin = frm.doc.total - (frm.doc.cost_incurred || 0);
+                    frm.set_value('margin', margin);
+                    const profit_percentage = (margin / frm.doc.total) * 100;
+                    frm.set_value('profit_percentage', profit_percentage);
+                }
+            }
+        });
+
+        // Calculate manufacturing status
+        if (frm.doc.docstatus === 1) {
+            frappe.call({
+                method: "frappe.client.get_list",
+                args: {
+                    "doctype": "Work Order",
+                    "filters": {
+                        "sales_order": frm.doc.name
+                    },
+                    "fields": ["progress_status"]
+                },
+                callback: function(response) {
+                    if (response.message && response.message.length > 0) {
+                        var all_ready = true;
+                        for (var i = 0; i < response.message.length; i++) {
+                            if (response.message[i].progress_status !== "RTD") {
+                                all_ready = false;
+                                break;
+                            }
+                        }
+                        if (all_ready) {
+                            frm.set_value("manufacture_status", "ALL-RTD");
+                        } else {
+                            frm.set_value("manufacture_status", "IN-PROG");
+                        }
+                    } else {
+                        frm.set_value("manufacture_status", "NO-WO");
+                    }
+                }
+            });
+        }
+
+        // Calculate man_days
+        var netTotal = frm.doc.net_total || 0;
+        var manDays = netTotal * (0.05 / 800);
+        frm.set_value('man_days_calculation', manDays);
+    },
+
+    // Validate function for man_days calculation
+    validate: function(frm) {
+        var netTotal = frm.doc.net_total || 0;
+        var manDays = netTotal * (0.05 / 800);
+        frm.set_value('man_days_calculation', manDays);
+    }
+});
