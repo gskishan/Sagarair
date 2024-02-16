@@ -20,7 +20,7 @@ app_license = "mit"
 # website_theme_scss = "sagarair_app/public/scss/website"
 
 # include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
+webform_include_js = {"Service Visit Register": "public/js/service_register.js"}
 # webform_include_css = {"doctype": "public/css/doctype.css"}
 
 # include js in page
@@ -28,15 +28,15 @@ app_license = "mit"
 
 # include js in doctype views
 doctype_js = {
-    "BOM" : "custom/client_script/sc_2.js",
-    #"Sales Order" : "custom/client_script/sales_order.js",
-    "Purchase Order" : "custom/client_script/purchase_order_button.js",
-    #"Work Order" : "custom/client_script/work_order.js",
-    "Stock Entry" : "custom/client_script/stock_entry_in_bom.js",
-    "Material Request" : "custom/client_script/material_request_for_man_day.js",
-    #"Labour Timesheet" : "custom/client_script/labour_timesheet.js",
-    #"Service Visit Register" : "custom/client_script/to_pay_cal.js"
-    }
+    "BOM" : "custom/client_script/bom.js",
+    "Sales Order" : "custom/client_script/sales_order.js",
+    "Purchase Order" : "custom/client_script/purchase_order.js",
+    "Work Order" : "custom/client_script/work_order.js",
+    "Stock Entry" : "custom/client_script/stock_entry.js",
+    "Material Request" : "custom/client_script/material_request.js",
+    "Labour Timesheet" : "custom/client_script/labour_timesheet.js",
+    #"Service Visit Register" : "custom/client_script/service_register.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

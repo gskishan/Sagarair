@@ -10,13 +10,10 @@ frappe.ui.form.on('Work Order', {
     onload: function(frm) {
         frm.add_custom_field('additional_costs', 'Currency', 'Additional Costs');
         frm.add_custom_field('raw_material_consumed_cost', 'Currency', 'Raw Material Consumed Cost');
-        frm.toggle_display('total_incurred_cost', false);
+        //frm.toggle_display('total_incurred_cost', true);
         frm.add_custom_field('total_cost_per_unit', 'Currency', 'Total Cost Per Unit');
         frm.toggle_display('total_cost_per_unit', false);
-    },
-    refresh: function(frm) {
-        frm.toggle_display('total_incurred_cost', true);
-        frm.toggle_display('total_cost_per_unit', true);
+
     },
     additional_costs: function(frm) {
         calculate_total_cost(frm);
@@ -31,11 +28,47 @@ frappe.ui.form.on('Work Order', {
         calculate_total_cost_per_unit(frm);
     },
     refresh: function(frm) {
+        if (frm.doc.__islocal) return;
+
+        frappe.call({
+            method: 'frappe.client.get_value',
+            args: {
+                doctype: 'Stock Entry',
+                filters: {
+                    work_order: frm.doc.name,
+                    purpose: 'Manufacture'
+                },
+                fieldname: ['total_outgoing_value', 'total_additional_costs']
+            },
+            callback: function(r) {
+                if (r.message && r.message.total_outgoing_value) {
+                    frm.set_df_property('raw_material_consumed_cost', 'hidden', false);
+                    frm.set_value('raw_material_consumed_cost', r.message.total_outgoing_value);
+                } else {
+                    frm.set_df_property('raw_material_consumed_cost', 'hidden', true);
+                }
+
+                if (r.message && r.message.total_additional_costs) {
+                    frm.set_df_property('additional_costs', 'hidden', false);
+                    frm.set_value('additional_costs', r.message.total_additional_costs);
+                } else {
+                    frm.set_df_property('additional_costs', 'hidden', true);
+                }
+            }
+        });
+
         if (frm.doc.status === 'Completed') {
             frm.add_custom_button(__('Manufacture Stock Entry'), function() {
                 frappe.set_route('List', 'Stock Entry', {'work_order': frm.doc.name});
             });
         }
+        frm.toggle_display('total_incurred_cost', true);
+        frm.toggle_display('total_cost_per_unit', true);
+
+        // only apply this customization for new Work Orders
+        var progress_status_field = frm.fields_dict.progress_status;
+        progress_status_field.$input.addClass('label-success');
+
     },
     product_group: function(frm) {
         var progress_status_options = [];

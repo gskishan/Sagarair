@@ -80,6 +80,23 @@ frappe.ui.form.on('Sales Order', {
         var netTotal = frm.doc.net_total || 0;
         var manDays = netTotal * (0.05 / 800);
         frm.set_value('man_days_calculation', manDays);
+
+
+        // calculate margin
+        const margin = frm.doc.total - (frm.doc.cost_incurred || 0);
+    
+        // set value of custom field
+        frm.set_value('margin', margin);
+
+
+        // get custom field value
+        if (frm.doc.cost_incurred > 0){
+            const margin = frm.doc.margin;
+
+            // calculate and set profit percentage
+            const profit_percentage = (margin / frm.doc.total) * 100;
+            frm.set_value('profit_percentage', profit_percentage);
+        }
     },
 
     // Validate function for man_days calculation
@@ -88,4 +105,5 @@ frappe.ui.form.on('Sales Order', {
         var manDays = netTotal * (0.05 / 800);
         frm.set_value('man_days_calculation', manDays);
     }
+
 });
