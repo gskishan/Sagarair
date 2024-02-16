@@ -20,7 +20,7 @@ app_license = "mit"
 # website_theme_scss = "sagarair_app/public/scss/website"
 
 # include js, css files in header of web form
-webform_include_js = {"Service Visit Register": "public/js/service_register.js"}
+# webform_include_js = {"Service Visit Register": "public/js/service_register.js"}
 # webform_include_css = {"doctype": "public/css/doctype.css"}
 
 # include js in page
@@ -225,5 +225,11 @@ doctype_js = {
 
 fixtures = [
     # export all records from the Category table
-   # "Client Script"
+    {"dt": "Client Script", "filters": [
+        [
+            "module", "in", [
+                "Sagarair APP",
+            ]
+        ]
+    ]},
 ]
