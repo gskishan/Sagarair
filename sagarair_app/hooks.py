@@ -227,9 +227,7 @@ fixtures = [
     # export all records from the Category table
     {"dt": "Client Script", "filters": [
         [
-            "module", "in", [
-                "Sagarair APP",
-            ]
+            "module", "=", "Sagarair APP"
         ]
-    ]},
+    ]}
 ]
