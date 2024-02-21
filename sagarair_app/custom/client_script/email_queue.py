@@ -5,4 +5,4 @@ def email_set():
     frappe.db.set_default("suspend_email_queue", 0)
   else:
     frappe.db.set_default("suspend_email_queue", 1)
-  frappe.errprint([int(frappe.db.get_default("suspend_email_queue")),"em])
+  frappe.errprint([int(frappe.db.get_default("suspend_email_queue")),"em"])
