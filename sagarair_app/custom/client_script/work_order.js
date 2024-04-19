@@ -5,7 +5,6 @@ frappe.ui.form.on("Work Order Item", "consumed_qty", function(frm, cdt, cdn) {
     });
     frm.refresh_field("required_items");
 });
-
 frappe.ui.form.on('Work Order', {
     onload: function(frm) {
         frm.add_custom_field('additional_costs', 'Currency', 'Additional Costs');
@@ -62,8 +61,8 @@ frappe.ui.form.on('Work Order', {
                 frappe.set_route('List', 'Stock Entry', {'work_order': frm.doc.name});
             });
         }
-        frm.toggle_display('total_incurred_cost', true);
-        frm.toggle_display('total_cost_per_unit', true);
+        // frm.toggle_display('total_incurred_cost', true);
+        // frm.toggle_display('total_cost_per_unit', true);
 
         // only apply this customization for new Work Orders
         var progress_status_field = frm.fields_dict.progress_status;

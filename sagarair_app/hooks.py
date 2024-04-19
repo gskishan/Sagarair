@@ -229,5 +229,17 @@ fixtures = [
         [
             "module", "=", "Sagarair APP"
         ]
-    ]}
+    ]},
+    {
+        "dt": "Custom Field", 
+        "filters": {
+            "module": ["in", ["Sagarair APP"]]
+        }
+    },
+    {
+        "dt": "Property Setter", 
+        "filters": {
+            "module": ["in", ["Sagarair APP"]]
+        }
+    }
 ]

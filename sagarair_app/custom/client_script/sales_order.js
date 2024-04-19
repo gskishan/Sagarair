@@ -104,6 +104,29 @@ frappe.ui.form.on('Sales Order', {
         var netTotal = frm.doc.net_total || 0;
         var manDays = netTotal * (0.05 / 800);
         frm.set_value('man_days_calculation', manDays);
+    },
+    custom_get_costing_from_work_orders(frm) {
+        if(frm.doc.custom_get_costing_from_work_orders && !frm.doc.name.startsWith("new")){
+            frappe.db.get_list("Work Order", {
+                filters: {
+                    sales_order: frm.doc.name
+                },
+                fields:["raw_material_consumed_cost", "additional_costs", "total_incurred_cost"]
+            }).then(r => {
+                let raw_material_cost = 0
+                let additional_cost = 0
+                let incurred_cost = 0
+                for (let i = 0; i < r.length; i++) {
+                    let row = r[i]
+                    raw_material_cost += row.raw_material_consumed_cost
+                    additional_cost += row.additional_costs
+                    incurred_cost += row.total_incurred_cost
+                }
+                frm.set_value("custom_raw_material_consumed_cost", raw_material_cost )
+                frm.set_value("custom_total_additional_cost", additional_cost )
+                frm.set_value("custom_total_incurred_cost", incurred_cost )
+                frm.refresh()
+            })
+        }
     }
-
 });
