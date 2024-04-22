@@ -46,10 +46,10 @@ frappe.ui.form.on('Landed Cost Taxes and Charges', {
     let row = frappe.get_doc(cdt, cdn);
     // console.log(row.amount, "ROW")
     if (row.expense_account == "Labour Cost ( Included in Valuation ) - SAPL") {
-      frm.set_value("custom_labour_cost_amnt", row.amount)
+      frm.set_value("custom_labour_cost", row.amount)
     }
     else if (row.expense_account == "Powder Coating (Included in Valuation) - SAPL") {
-      frm.set_value("custom_powder_coating_amnt", row.amount)
+      frm.set_value("custom_powder_coating", row.amount)
     }
   }
 })

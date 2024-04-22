@@ -37,7 +37,7 @@ frappe.ui.form.on('Work Order', {
                     work_order: frm.doc.name,
                     purpose: 'Manufacture'
                 },
-                fieldname: ['total_outgoing_value', 'total_additional_costs']
+                fieldname: ['total_outgoing_value', 'total_additional_costs', 'custom_labour_cost', 'custom_powder_coating']
             },
             callback: function(r) {
                 if (r.message && r.message.total_outgoing_value) {
@@ -52,6 +52,20 @@ frappe.ui.form.on('Work Order', {
                     frm.set_value('additional_costs', r.message.total_additional_costs);
                 } else {
                     frm.set_df_property('additional_costs', 'hidden', true);
+                }
+
+                if (r.message && r.message.custom_labour_cost) {
+                    frm.set_df_property('custom_labour_cost', 'hidden', false);
+                    frm.set_value('custom_labour_cost', r.message.total_outgoing_value);
+                } else {
+                    frm.set_df_property('custom_labour_cost', 'hidden', true);
+                }
+
+                if (r.message && r.message.custom_powder_coating) {
+                    frm.set_df_property('custom_powder_coating', 'hidden', false);
+                    frm.set_value('custom_powder_coating', r.message.total_outgoing_value);
+                } else {
+                    frm.set_df_property('custom_powder_coating', 'hidden', true);
                 }
             }
         });

@@ -111,18 +111,24 @@ frappe.ui.form.on('Sales Order', {
                 filters: {
                     sales_order: frm.doc.name
                 },
-                fields:["raw_material_consumed_cost", "additional_costs", "total_incurred_cost"]
+                fields:["raw_material_consumed_cost", "additional_costs", "total_incurred_cost", "custom_labour_cost", "custom_powder_coating"]
             }).then(r => {
                 let raw_material_cost = 0
                 let additional_cost = 0
+                let labour_cost = 0
+                let powder_cost = 0
                 let incurred_cost = 0
                 for (let i = 0; i < r.length; i++) {
                     let row = r[i]
                     raw_material_cost += row.raw_material_consumed_cost
+                    labour_cost += row.custom_labour_cost
+                    powder_cost += row.custom_powder_coating
                     additional_cost += row.additional_costs
                     incurred_cost += row.total_incurred_cost
                 }
                 frm.set_value("custom_raw_material_consumed_cost", raw_material_cost )
+                frm.set_value("custom_total_labour_cost", labour_cost )
+                frm.set_value("custom_total_powder_coating_cost", powder_cost )
                 frm.set_value("custom_total_additional_cost", additional_cost )
                 frm.set_value("custom_total_incurred_cost", incurred_cost )
                 frm.refresh()
