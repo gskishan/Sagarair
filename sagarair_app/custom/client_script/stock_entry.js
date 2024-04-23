@@ -39,6 +39,16 @@ frappe.ui.form.on('Stock Entry', {
         });
       }).addClass('btn-primary');
     }
+  },
+  before_save(frm) {
+    let amnt = 0
+    let additional_costs = frm.doc.additional_costs
+    if (additional_costs && additional_costs.length > 0) {
+      for (let i = 0; i < additional_costs.length; i++){
+        amnt += additional_costs[i].amount
+      }
+      frm.set_value("total_additional_costs", amnt)
+    }
   }
 });
 frappe.ui.form.on('Landed Cost Taxes and Charges', {
