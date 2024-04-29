@@ -133,13 +133,13 @@ doctype_js = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Stock Entry":{
+		"on_update":"sagarair_app.custom_script.stock_entry.stock_entry.on_update",
+		# "validate":"sagarair_app.custom_script.stock_entry.stock_entry.validate",
+
+	},
+}
 
 # Scheduled Tasks
 # ---------------
