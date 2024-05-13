@@ -46,7 +46,7 @@ def on_update(self,method):
 		
 		
 
-
+@frappe.whitelist()
 def agrigate_costing(sales_order):
 	sql="""select sum(raw_material_consumed_cost) raw_material_consumed_cost,sum(total_cost_per_unit) total_cost_per_unit,sum(total_incurred_cost) total_incurred_cost,
 	sum(additional_costs) additional_costs,sum(custom_labour_cost) custom_labour_cost,sum(powder_coating) powder_coating 
