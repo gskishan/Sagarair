@@ -17,7 +17,11 @@ from frappe import _
 # 		})
 
 @frappe.whitelist()
-def on_update(self,method):
+def reset_all_cal(stock_entry):
+	self=frappe.get_doc("Stock Entry",stock_entry)
+	on_update(self)
+@frappe.whitelist()
+def on_update(self,method=None):
 	if self.work_order and self.docstatus==1:
 		labour = 0
 		power = 0
@@ -75,3 +79,13 @@ def agrigate_costing(sales_order):
 		return False
 	else:
 		return True
+
+
+
+	
+
+	
+	
+	
+
+		
