@@ -13,7 +13,7 @@ scheduler_events = {
             "frappe.email.queue.flush"
         ]
     },
-    "all": [
+    "daily_long": [
         "sagarair_app.tasks.biometric.get_checkins"
     ],
 }
