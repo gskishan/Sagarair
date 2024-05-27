@@ -128,9 +128,9 @@ doctype_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Salary Slip": "sagarair_app.com.custom.client_script.salary_slip.CustomSalarySlip",
+}
 
 # Document Events
 # ---------------
