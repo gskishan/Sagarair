@@ -27,7 +27,7 @@ class CustomSalarySlip(SalarySlip):
 			self.set("earnings", [])
 			self.set("deductions", [])
 			base=get_base_amount(self.employee)
-			rt = ((adding / self.total_working_days) / 8)
+			rt = ((adding / self.total_working_days) / 8.0)
 			self.hour_rate = rt
 			self.base_hour_rate = flt(self.hour_rate) * flt(self.exchange_rate)
 			wages_amount = self.hour_rate * self.total_working_hours
