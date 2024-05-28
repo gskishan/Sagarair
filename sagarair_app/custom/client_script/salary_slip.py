@@ -23,7 +23,7 @@ class CustomSalarySlip(SalarySlip):
 			for e in self.earnings:
 				if e.salary_component == 'Basic' or e.salary_component == 'House Rent Allowance':
 					adding += e.amount
-                    frappe.msgprint(adding)
+                    			frappe.msgprint(adding)
 			
 			self.set("earnings", [])
 			self.set("deductions", [])
