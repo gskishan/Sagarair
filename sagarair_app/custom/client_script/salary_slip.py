@@ -19,6 +19,7 @@ class CustomSalarySlip(SalarySlip):
             for e in self.earnings:
                 if e.salary_component in ['Basic', 'House Rent Allowance']:
                     adding += e.amount
+                    print(adding)
             
             # Reset earnings and deductions
             self.set("earnings", [])
