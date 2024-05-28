@@ -19,14 +19,14 @@ class CustomSalarySlip(SalarySlip):
             for e in self.earnings:
                 if e.salary_component == 'Basic' or e.salary_component == 'House Rent Allowance':
                     adding += e.amount
-                    frappe.msgprint(str(adding))
+                    # frappe.msgprint(str(adding))
 
             self.set("earnings", [])
             self.set("deductions", [])
             base = get_base_amount(self.employee)
             rt = (adding / self.total_working_days) / 8.0
-            frappe.msgprint(str(self.total_working_days))
-            frappe.msgprint(str(rt))
+            # frappe.msgprint(str(self.total_working_days))
+            # frappe.msgprint(str(rt))
             self.hour_rate = rt
             self.base_hour_rate = flt(self.hour_rate) * flt(self.exchange_rate)
             wages_amount = self.hour_rate * self.total_working_hours
