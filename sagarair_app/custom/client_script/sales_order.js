@@ -15,10 +15,10 @@ frappe.ui.form.on('Sales Order', {
             frappe.set_route('List', 'Service Visit Register', {'sales_order_reference': frm.doc.name});
         });
 
-        // Open Delivery Notes Button
-        frm.add_custom_button(__('Open Delivery Notes'), function() {
-            frappe.set_route('List', 'Delivery Note', {'sales_order_reference': frm.doc.name});
-        });
+        // // Open Delivery Notes Button
+        // frm.add_custom_button(__('Open Delivery Notes'), function() {
+        //     frappe.set_route('List', 'Delivery Note', {'sales_order_reference': frm.doc.name});
+        // });
 
         // Fetch and calculate completed work orders
         frappe.call({
