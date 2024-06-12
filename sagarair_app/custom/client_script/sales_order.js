@@ -1,5 +1,8 @@
 frappe.ui.form.on('Sales Order', {
     refresh: function(frm) {
+        setTimeout(() => {
+            frm.remove_custom_button('Update Items');
+        }, 10);
         // Open MR Button
         frm.add_custom_button(__('Open MR'), function() {
             frappe.set_route('List', 'Material Request', {'sales_order': frm.doc.name, 'status': 'Manufacture'});
