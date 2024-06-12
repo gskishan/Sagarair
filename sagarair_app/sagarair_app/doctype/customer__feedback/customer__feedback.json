@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "autoname": "format:QA-FB-{#####}",
+ "creation": "2024-06-12 20:30:40.471855",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_name",
+  "sales_order",
+  "column_break_bov2k",
+  "purchase_order_date",
+  "delivery_note_date",
+  "section_break_gbcco",
+  "items",
+  "parameter",
+  "attach"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Data",
+   "label": "Sales Order"
+  },
+  {
+   "fieldname": "column_break_bov2k",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_order_date",
+   "fieldtype": "Date",
+   "label": "Purchase Order Date"
+  },
+  {
+   "fieldname": "delivery_note_date",
+   "fieldtype": "Date",
+   "label": "Delivery Note Date"
+  },
+  {
+   "fieldname": "section_break_gbcco",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Sales Order Item"
+  },
+  {
+   "fieldname": "parameter",
+   "fieldtype": "Table",
+   "label": "Parameter",
+   "options": "Parameter"
+  },
+  {
+   "fieldname": "attach",
+   "fieldtype": "Attach Image",
+   "label": "Attach"
+  }
+ ],
+ "links": [
+  {
+   "group": "Actions",
+   "link_doctype": "Quality Action",
+   "link_fieldname": "feedback"
+  }
+ ],
+ "modified": "2024-06-12 20:30:40.471855",
+ "modified_by": "Administrator",
+ "module": "Sagarair APP",
+ "name": "Customer  Feedback",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
