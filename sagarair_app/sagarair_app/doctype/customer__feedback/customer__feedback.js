@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Customer  Feedback', {
     refresh: function (frm) {
-        if (cur_frm.doc.sales_order && cur_frm.is_new() && !cur_frm.doc.items) {
+        if (cur_frm.doc.sales_order && cur_frm.is_new() &&  !cur_frm.doc.items) {
             frappe.db.get_doc('Sales Order', cur_frm.doc.sales_order)
                 .then(doc => {
 
