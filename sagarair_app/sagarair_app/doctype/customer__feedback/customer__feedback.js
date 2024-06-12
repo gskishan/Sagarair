@@ -17,6 +17,7 @@ frappe.ui.form.on('Customer  Feedback', {
                 feedback_item.uom = item.uom;
                  feedback_item.amount = item.amount;
                 feedback_item.delivery_date = item.delivery_date;
+		feedback_item.conversion_factor = item.conversion_factor;
 
 
             });
