@@ -7,6 +7,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "customer",
   "customer_name",
   "sales_order",
   "column_break_bov2k",
@@ -15,7 +16,9 @@
   "section_break_gbcco",
   "items",
   "parameter",
-  "attach"
+  "attach",
+  "email_id",
+  "email_template"
  ],
  "fields": [
   {
@@ -62,6 +65,23 @@
    "fieldname": "attach",
    "fieldtype": "Attach Image",
    "label": "Attach"
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Id",
+   "options": "Email"
+  },
+  {
+   "fieldname": "email_template",
+   "fieldtype": "Link",
+   "label": "Email Template",
+   "options": "Email Template"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Data",
+   "label": "Customer"
   }
  ],
  "links": [
@@ -71,7 +91,7 @@
    "link_fieldname": "feedback"
   }
  ],
- "modified": "2024-06-12 20:30:40.471855",
+ "modified": "2024-06-13 20:19:23.124364",
  "modified_by": "Administrator",
  "module": "Sagarair APP",
  "name": "Customer  Feedback",
