@@ -115,7 +115,7 @@ class CustomerFeedback(Document):
 			doctype=self.doctype,
 			name=self.name,
 		)["name"]
-
+		self.db_set('email_sent',1, update_modified=False)
 		frappe.msgprint(_("Email Sent to Customer {0}").format(self.customer))
 
 	def get_attachments(self):
