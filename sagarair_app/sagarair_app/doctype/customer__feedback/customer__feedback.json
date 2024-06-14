@@ -18,6 +18,7 @@
   "parameter",
   "attach",
   "email_id",
+  "email_sent",
   "email_template"
  ],
  "fields": [
@@ -78,6 +79,11 @@
    "label": "Email Template",
    "options": "Email Template",
    "default":"FeedBack"
+  },
+   {
+   "fieldname": "email_sent",
+   "fieldtype": "Check",
+   "label": "Email Sent"
   },
   {
    "fieldname": "customer",
