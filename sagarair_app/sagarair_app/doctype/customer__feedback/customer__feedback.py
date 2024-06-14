@@ -122,7 +122,7 @@ class CustomerFeedback(Document):
 		return [d.name for d in get_attachments(self.doctype, self.name)]
 	
 	def get_link(self):
-		url="https://sagarair.gtksoft.in/customer--feedback/{0}/edit".format(self.name)
+		url="https://sagarair.gtksoft.in/customer-feedback/{0}/edit".format(self.name)
 		return url
 
 	
