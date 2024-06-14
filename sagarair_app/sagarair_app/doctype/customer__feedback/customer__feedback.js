@@ -3,6 +3,20 @@
 
 frappe.ui.form.on('Customer  Feedback', {
     refresh: function (frm) {
+        if(!cur_frm.doc.email_sent){
+        cur_frm.add_custom_button(__("Send Email"), function () {
+      
+            frappe.call({
+                doc: cur_frm.doc,
+                method: 'send_to_customer',
+                freeze: true,
+                callback: function (r, rt) {
+                    // frappe.msgprint(__('row updated successfully'));
+
+                }
+            });
+        });
+        }
         if (cur_frm.doc.sales_order && cur_frm.is_new() &&  !cur_frm.doc.items) {
             frappe.db.get_doc('Sales Order', cur_frm.doc.sales_order)
                 .then(doc => {
