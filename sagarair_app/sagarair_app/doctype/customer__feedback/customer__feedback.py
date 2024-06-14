@@ -66,7 +66,7 @@ class CustomerFeedback(Document):
 				"customer": self.get("customer"),
 				"customer_name": self.get("customer_name"),
 				"update_password_link": f'<a href="{update_password_link}" class="btn btn-default btn-xs" target="_blank">{_("Set Password")}</a>',
-				"portal_link": f'<a href="{rfq_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your Quotation")} </a>',
+				"portal_link": f'<a href="{rfq_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your FeedBack")} </a>',
 				"user_fullname": full_name,
 			}
 		)
