@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Customer  Feedback', {
     refresh: function (frm) {
-        if(!cur_frm.doc.email_sent){
+        if(!cur_frm.doc.email_sent && !cur_frm.is_new()){
         cur_frm.add_custom_button(__("Send Email"), function () {
       
             frappe.call({
