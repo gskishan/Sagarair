@@ -83,7 +83,8 @@
    {
    "fieldname": "email_sent",
    "fieldtype": "Check",
-   "label": "Email Sent"
+   "label": "Email Sent",
+    "read_only": 1
   },
   {
    "fieldname": "customer",
