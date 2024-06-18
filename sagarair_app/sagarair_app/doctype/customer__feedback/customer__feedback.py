@@ -10,6 +10,14 @@ from frappe import _
 STANDARD_USERS = ("Guest", "Administrator")
 class CustomerFeedback(Document):
 	@frappe.whitelist()
+	def validate(self):
+	    if self.is_new():
+	        parameters = ["Product", "Size", "Finish", "Packing"]
+	        for parameter in parameters:
+	            child_row = self.append('parameter', {})
+	            child_row.parameter = parameter
+	
+	@frappe.whitelist()
 	def send_to_customer(self):
 		update_password_link = self.update_customer_contact(self.get_link())
 		
