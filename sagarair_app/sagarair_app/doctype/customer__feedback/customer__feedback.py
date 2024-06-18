@@ -12,6 +12,7 @@ class CustomerFeedback(Document):
 	@frappe.whitelist()
 	def validate(self):
 	    if self.is_new():
+		self.email_sent=0
 	        parameters = ["Product", "Size", "Finish", "Packing"]
 	        for parameter in parameters:
 	            child_row = self.append('parameter', {})
