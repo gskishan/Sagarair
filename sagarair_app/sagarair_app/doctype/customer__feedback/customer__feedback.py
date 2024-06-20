@@ -77,7 +77,7 @@ class CustomerFeedback(Document):
 				"update_password_link": f'<a href="{update_password_link}" class="btn btn-default btn-xs" target="_blank">{_("Set Password")}</a>',
 				"portal_link": f'<a href="{feedback_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your FeedBack")} </a>',
 				"user_fullname": full_name,
-				"custom_link":custom_link
+				"login_link":f'<a href="{custom_link}" class="btn btn-default btn-xs" target="_blank"> {_("Log In")} </a>'
 			}
 		)
 
