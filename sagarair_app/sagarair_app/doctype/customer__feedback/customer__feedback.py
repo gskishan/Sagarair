@@ -11,12 +11,12 @@ STANDARD_USERS = ("Guest", "Administrator")
 class CustomerFeedback(Document):
 	@frappe.whitelist()
 	def validate(self):
-	    if self.is_new():
-		self.email_sent=0
-	        parameters = ["Product", "Size", "Finish", "Packing"]
-	        for parameter in parameters:
-	            child_row = self.append('parameter', {})
-	            child_row.parameter = parameter
+		if self.is_new():
+			self.email_sent=0
+			parameters = ["Product", "Size", "Finish", "Packing"]
+			for parameter in parameters:
+				child_row = self.append('parameter', {})
+				child_row.parameter = parameter
 	
 	@frappe.whitelist()
 	def send_to_customer(self):
@@ -62,21 +62,22 @@ class CustomerFeedback(Document):
 
 		return user, update_password_link
 
-	def customer_rfq_mail(self, update_password_link, rfq_link, preview=False):
+	def customer_rfq_mail(self, update_password_link, feedback_link, preview=False):
 		full_name = get_user_fullname(frappe.session["user"])
 		if full_name == "Guest":
 			full_name = "Administrator"
 
 		doc_args = self.as_dict()
-
+		custom_link=_generate_temporary_login_link(self.email_id,feedback_link)
 
 		doc_args.update(
 			{
 				"customer": self.get("customer"),
 				"customer_name": self.get("customer_name"),
 				"update_password_link": f'<a href="{update_password_link}" class="btn btn-default btn-xs" target="_blank">{_("Set Password")}</a>',
-				"portal_link": f'<a href="{rfq_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your FeedBack")} </a>',
+				"portal_link": f'<a href="{feedback_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your FeedBack")} </a>',
 				"user_fullname": full_name,
+				"custom_link":custom_link
 			}
 		)
 
@@ -136,4 +137,19 @@ class CustomerFeedback(Document):
 
 	
 
+def _generate_temporary_login_link(email: str, redirect_url: str):
+	from frappe.utils import get_url
+	assert isinstance(email, str)
+	assert isinstance(redirect_url, str)
+	expiry = frappe.get_system_settings("login_with_email_link_expiry") or 10
 
+	if not frappe.db.exists("User", email):
+		frappe.throw(_("User with email address {0} does not exist").format(email), frappe.DoesNotExistError)
+
+	key = frappe.generate_hash()
+	frappe.cache.set_value(f"one_time_login_key:{key}", email, expires_in_sec=expiry * 60)
+
+	# Construct the login URL with the key and redirect_url parameters
+	login_url = get_url(f"/api/method/frappe.www.login.login_via_key?key={key}&redirect_to={redirect_url}")
+
+	return login_url
