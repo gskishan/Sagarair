@@ -77,7 +77,7 @@ class CustomerFeedback(Document):
 				"update_password_link": f'<a href="{update_password_link}" class="btn btn-default btn-xs" target="_blank">{_("Set Password")}</a>',
 				"portal_link": f'<a href="{feedback_link}" class="btn btn-default btn-xs" target="_blank"> {_("Submit your FeedBack")} </a>',
 				"user_fullname": full_name,
-				"login_link":f'<a href="{custom_link}" class="btn btn-default btn-xs" target="_blank"> {_("Log In")} </a>'
+				"login_link":custom_link
 			}
 		)
 
@@ -149,8 +149,6 @@ def _generate_temporary_login_link(email: str, redirect_url: str):
 	key = frappe.generate_hash()
 	cache_instance = frappe.cache()
 	cache_instance.set_value(f"one_time_login_key:{key}", email, expires_in_sec=expiry * 60)
+	return get_url(f"/api/method/frappe.www.login.login_via_key?key={key}")
 
-
-	login_url = get_url(f"/api/method/frappe.www.login.login_via_key?key={key}&redirect_to={redirect_url}")
-
-	return login_url
+	
