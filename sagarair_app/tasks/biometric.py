@@ -36,9 +36,17 @@ def get_checkins():
                     login = prev_checkin
                 else:
                     time = time_diff(get_datetime(each_checkin), prev_checkin)
+                    if str(time)[0] == "-":
+                        time = time_diff( prev_checkin, get_datetime(each_checkin))
+
                     if str(time)[0]!= "-" and int(str(time).split(":")[0]) >=1:
                         logout = get_datetime(each_checkin)
                     prev_checkin = get_datetime(each_checkin)
+            
+            if login != "" and logout != "" and login > logout:
+                temp_login = login
+                login = logout
+                logout = temp_login
 
             name = frappe.db.get_value('Employee', {'attendance_device_id': employee_id}, ['name'])
             if name:
