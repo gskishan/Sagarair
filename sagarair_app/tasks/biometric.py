@@ -3,7 +3,8 @@ import frappe, json
 from frappe.utils.data import now,get_datetime,get_datetime_str
 from frappe.utils import (
 	add_days,
-    time_diff
+    time_diff,
+    now
 )
 import json
 
@@ -72,4 +73,9 @@ def get_checkins():
                     log_in.log_type = "OUT"
                     log_in.time = get_datetime_str(logout)
                     log_in.insert()
-                    
+        
+        # Update the Last Sync of Checkin
+        shift_types = frappe.db.get_list("Shift Type", pluck="name")
+        for each_shift in shift_types:
+            frappe.db.set_value('Shift Type', each_shift, 'last_sync_of_checkin', now())
+        
