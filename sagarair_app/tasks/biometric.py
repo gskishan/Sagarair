@@ -12,8 +12,8 @@ def get_checkins():
     url = 'https://sagaraircheckin-8grgp13z9-mohammed-zafars-projects.vercel.app'
     
     # Date Time String Format 2024-06-22 00:00:00.000000
-    # response = requests.get(f"{url}?from_date={get_datetime_str(add_days(now(),-1))}&to_date={get_datetime_str(now())}")
-    response = requests.get(f"{url}?from_date={'2024-06-25 00:00:00.000000'}&to_date={'2024-06-25 23:00:00.000000'}")
+    # response = requests.get(f"{url}?from_date={'2024-06-25 00:00:00.000000'}&to_date={'2024-06-25 23:00:00.000000'}")
+    response = requests.get(f"{url}?from_date={get_datetime_str(add_days(now(),-1))}&to_date={get_datetime_str(now())}")
     data = response.content.decode()
     data = frappe.parse_json(data)
 
