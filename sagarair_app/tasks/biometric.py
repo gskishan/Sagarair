@@ -12,8 +12,8 @@ def get_checkins():
     url = 'https://sagaraircheckin-8grgp13z9-mohammed-zafars-projects.vercel.app'
     
     # Date Time String Format 2024-06-22 00:00:00.000000
-    # response = requests.get(f"{url}?from_date={'2024-06-25 00:00:00.000000'}&to_date={'2024-06-25 23:00:00.000000'}")
-    response = requests.get(f"{url}?from_date={get_datetime_str(add_days(now(),-1))}&to_date={get_datetime_str(now())}")
+    response = requests.get(f"{url}?from_date={'2024-07-06 00:00:00.000000'}&to_date={'2024-07-06 23:00:00.000000'}")
+    # response = requests.get(f"{url}?from_date={get_datetime_str(add_days(now(),-1))}&to_date={get_datetime_str(now())}")
     data = response.content.decode()
     data = frappe.parse_json(data)
 
@@ -75,9 +75,9 @@ def get_checkins():
                     log_in.time = get_datetime_str(logout)
                     log_in.insert()
         
-        print(json.dumps(result, indent=4), 'RESULT ,\n\n\n')
+        # print(json.dumps(result, indent=4), 'RESULT ,\n\n\n')
         # Update the Last Sync of Checkin
         shift_types = frappe.db.get_list("Shift Type", pluck="name")
         for each_shift in shift_types:
             frappe.db.set_value('Shift Type', each_shift, 'last_sync_of_checkin', now())
-        print("Completed \n\n\n\nn\n")
+        # print("Completed \n\n\n\nn\n")
