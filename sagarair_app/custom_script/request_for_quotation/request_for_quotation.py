@@ -6,7 +6,21 @@ from frappe.utils.user import get_user_fullname
 STANDARD_USERS = ("Guest", "Administrator")
 
 class CustomRequestforQuotation(RequestforQuotation):
-	def supplier_rfq_mail(self, data, update_password_link, rfq_link, preview=False):
+	def send_to_supplier(self):
+		"""Sends RFQ mail to involved suppliers."""
+		for rfq_supplier in self.suppliers:
+			if rfq_supplier.email_id is not None and rfq_supplier.send_email:
+				self.validate_email_id(rfq_supplier)
+
+				update_password_link, contact = self.update_supplier_contact(rfq_supplier, self.get_link())
+
+				self.update_supplier_part_no(rfq_supplier.supplier)
+				self.supplier_rfq_mail(rfq_supplier, update_password_link, self.get_link(),rfq_supplier.email_id)
+				rfq_supplier.email_sent = 1
+				if not rfq_supplier.contact:
+					rfq_supplier.contact = contact
+				rfq_supplier.save()
+	def supplier_rfq_mail(self, data, update_password_link, rfq_link, preview=False,email_id=None):
 		full_name = get_user_fullname(frappe.session["user"])
 		if full_name == "Guest":
 			full_name = "Administrator"
@@ -16,7 +30,10 @@ class CustomRequestforQuotation(RequestforQuotation):
 		if data.get("contact"):
 			contact = frappe.get_doc("Contact", data.get("contact"))
 			doc_args["contact"] = contact.as_dict()
-		custom_link=_generate_temporary_login_link(self.email_id,rfq_link)
+		if not email_id:
+			frappe.throw("Email Missing")
+		else:
+			custom_link=_generate_temporary_login_link(email_id,rfq_link)
 
 		doc_args.update(
 			{
