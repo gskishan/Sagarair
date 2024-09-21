@@ -22,7 +22,7 @@ class CustomRequestforQuotation(RequestforQuotation):
 					rfq_supplier.contact = contact
 				rfq_supplier.save()
 				
-	def supplier_rfq_mail(self, data, update_password_link, rfq_link,,email_id=None, preview=False):
+	def supplier_rfq_mail(self, data, update_password_link, rfq_link,email_id=None, preview=False):
 		full_name = get_user_fullname(frappe.session["user"])
 		frappe.errprint([email_id,"email_id"])
 		if full_name == "Guest":
