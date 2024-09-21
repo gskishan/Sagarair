@@ -130,6 +130,7 @@ doctype_js = {
 
 override_doctype_class = {
     "Salary Slip": "sagarair_app.custom.client_script.salary_slip.CustomSalarySlip",
+    "Request for Quotation": "sagarair_app.custom_script.request_for_quotation.request_for_quotation.CustomRequestforQuotation",
 }
 
 # Document Events
