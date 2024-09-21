@@ -7,6 +7,7 @@ app_license = "mit"
 
 # Includes in <head>
 # ------------------
+
 scheduler_events = {
     "cron": {
         "* * * * * *": [
