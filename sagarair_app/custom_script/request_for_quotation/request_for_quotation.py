@@ -21,7 +21,7 @@ class CustomRequestforQuotation(RequestforQuotation):
 				if not rfq_supplier.contact:
 					rfq_supplier.contact = contact
 				rfq_supplier.save()
-	def supplier_rfq_mail(self, data, update_password_link, rfq_link, preview=False,email_id=None):
+	def supplier_rfq_mail(self, data, update_password_link, rfq_link,,email_id=None, preview=False):
 		full_name = get_user_fullname(frappe.session["user"])
 		if full_name == "Guest":
 			full_name = "Administrator"
