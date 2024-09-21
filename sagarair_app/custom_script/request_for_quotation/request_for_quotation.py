@@ -15,6 +15,7 @@ class CustomRequestforQuotation(RequestforQuotation):
 				update_password_link, contact = self.update_supplier_contact(rfq_supplier, self.get_link())
 
 				self.update_supplier_part_no(rfq_supplier.supplier)
+				frappe.errprint(rfq_supplier.email_id)
 				self.supplier_rfq_mail(rfq_supplier, update_password_link, self.get_link(),rfq_supplier.email_id)
 				rfq_supplier.email_sent = 1
 				if not rfq_supplier.contact:
