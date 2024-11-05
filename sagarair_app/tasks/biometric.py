@@ -65,8 +65,8 @@ def get_checkins():
 					log_in = frappe.new_doc("Employee Checkin")
 					log_in.employee = name
 					log_in.log_type = "IN"
-					log_in.latitude = "7.366"
-					log_in.longitude = "78.476"
+					# log_in.latitude = "7.366"
+					# log_in.longitude = "78.476"
 
 
 					log_in.time = get_datetime_str(login)
@@ -78,8 +78,8 @@ def get_checkins():
 					log_out.employee = name
 					log_out.log_type = "OUT"
 					log_out.time = get_datetime_str(logout)
-					log_out.latitude = "7.366"
-					log_out.longitude = "78.476"
+					# log_out.latitude = "7.366"
+					# log_out.longitude = "78.476"
 
 
 					log_out.insert()
