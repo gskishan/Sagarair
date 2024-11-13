@@ -3,20 +3,25 @@ import frappe
 from frappe import _
 
 
-def on_submit(self,method=None):
-	if self.work_order and self.stock_entry_type=="Material Consumption for Manufacture":
-		wo=frappe.get_doc("Work Order",self.work_order)
-		for d in self.items:
-			for e in wo.items:
-				if d.custom_work_order_item==e.name:
-					e.db_set("custom_balance_qty",e.required_qty-d.qty)
-def on_cancel(self,method=None):
-	if self.work_order  and self.stock_entry_type=="Material Consumption for Manufacture":
-		wo=frappe.get_doc("Work Order",self.work_order)
-		for d in self.items:
-			for e in wo.items:
-				if d.custom_work_order_item==e.name:
-					e.db_set("custom_balance_qty",e.required_qty+d.qty)
+from erpnext.stock.doctype.stock_entry.stock_entry import  StockEntry
+from erpnext.stock.doctype.stock_entry.stock_entry import *
+
+def CustomStockEntry(StockEntry)
+
+# def on_submit(self,method=None):
+# 	if self.work_order and self.stock_entry_type=="Material Consumption for Manufacture":
+# 		wo=frappe.get_doc("Work Order",self.work_order)
+# 		for d in self.items:
+# 			for e in wo.items:
+# 				if d.custom_work_order_item==e.name:
+# 					e.db_set("custom_balance_qty",e.required_qty-d.qty)
+# def on_cancel(self,method=None):
+# 	if self.work_order  and self.stock_entry_type=="Material Consumption for Manufacture":
+# 		wo=frappe.get_doc("Work Order",self.work_order)
+# 		for d in self.items:
+# 			for e in wo.items:
+# 				if d.custom_work_order_item==e.name:
+# 					e.db_set("custom_balance_qty",e.required_qty+d.qty)
 		
 # @frappe.whitelist()
 # def validate(self,method):
