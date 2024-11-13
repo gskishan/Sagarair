@@ -141,6 +141,8 @@ override_doctype_class = {
 doc_events = {
 	"Stock Entry":{
 		"on_update":"sagarair_app.custom_script.stock_entry.stock_entry.on_update",
+		"on_submit":"sagarair_app.custom_script.stock_entry.stock_entry.on_submit",
+		"on_cancel":"sagarair_app.custom_script.stock_entry.stock_entry.on_cancel",
 		# "validate":"sagarair_app.custom_script.stock_entry.stock_entry.validate",
 
 	},
