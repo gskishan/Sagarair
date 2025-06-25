@@ -1,0 +1,89 @@
+[
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [
+   {
+    "default": null,
+    "fieldname": "work_order",
+    "fieldtype": "Link",
+    "label": "Work Order",
+    "mandatory": 1,
+    "options": "Work Order",
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   },
+   {
+    "default": null,
+    "fieldname": "sales_order",
+    "fieldtype": "Link",
+    "label": "Sales Order",
+    "mandatory": 1,
+    "options": "Sales Order",
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "NEW_LETTER_HEAD",
+  "modified": "2025-06-04 15:26:47.274524",
+  "module": "Sagarair APP",
+  "name": "Out of Stock Items in Work Orders",
+  "prepared_report": 0,
+  "query": "SELECT\n    wo.name AS \"Work Order\",\n    wo.sales_order AS \"Sales Order\",\n    se.name AS \"Stock Entry\",\n    sei.item_code AS \"Item\",\n    item.item_name AS \"Item Name\",\n    sei.qty AS \"Qty\",\n    sei.qty AS \"Required Qty\"\nFROM\n    `tabWork Order` wo\nJOIN\n    `tabStock Entry` se ON se.work_order = wo.name\nJOIN\n    `tabStock Entry Detail` sei ON sei.parent = se.name\nJOIN\n    `tabItem` item ON item.item_code = sei.item_code\nLEFT JOIN\n    `tabBin` bin ON bin.item_code = sei.item_code AND bin.warehouse = sei.s_warehouse\nWHERE\n    sei.qty > IFNULL(bin.actual_qty, 0)\n    AND (%(sales_order)s IS NULL OR wo.sales_order = %(sales_order)s)\n    AND (%(work_order)s IS NULL OR wo.name = %(work_order)s)\n",
+  "ref_doctype": "Work Order",
+  "reference_report": null,
+  "report_name": "Out of Stock Items in Work Orders",
+  "report_script": "",
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Manufacturing User"
+   },
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "RHead"
+   },
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "RHEAD2"
+   },
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Out of Stock Items in Work Orders",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Sales User"
+   }
+  ],
+  "timeout": 0
+ }
+]

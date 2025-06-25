@@ -243,5 +243,15 @@ fixtures = [
         [
             "module", "=", "Sagarair APP"
         ]
-    ]}
+    ]},
+     #export New Query Report
+    {
+        "dt": "Report",
+        "filters": [
+            [
+                "name", "=", "Out of Stock Items in Work Orders"
+            ]
+        ]
+    }
+
 ]
