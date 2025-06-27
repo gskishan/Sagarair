@@ -1,0 +1,485 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-06-26 15:40:51.890762",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_i9d8",
+  "naming_series",
+  "application_for",
+  "certificate_date",
+  "section_break_pmcy",
+  "sales_order_reference",
+  "customer",
+  "customer_address",
+  "column_break_jewi",
+  "customer_po",
+  "customer_po_date",
+  "manufacture_request",
+  "section_break_avms",
+  "item_code",
+  "item_serial_number",
+  "cfm",
+  "static_pressure_mm_wc",
+  "mounting",
+  "column_break_fhqg",
+  "item_name",
+  "item_description",
+  "section_break_orgh",
+  "test_results_summary",
+  "ambient_temperature_degrees_c",
+  "ambient_rh_",
+  "test_rig_id",
+  "section_break_bubw",
+  "checked_by",
+  "checked_by_employee_name",
+  "column_break_ypni",
+  "approved_by",
+  "data_lssc",
+  "amended_from",
+  "tab_2_tab",
+  "fan_details_section",
+  "fan_model",
+  "fan_make",
+  "fan_description",
+  "column_break_fnev",
+  "fan_rpm",
+  "fan_pulley_size",
+  "fan_serial_number",
+  "section_break_pmfp",
+  "motor_model",
+  "motor_make",
+  "motor_serial_number",
+  "motor_pulley_size",
+  "column_break_jgci",
+  "motor_hp",
+  "motor_poles",
+  "motor_full_load_amps",
+  "motor_running_amps",
+  "section_break_cjvx",
+  "fan_motor_belt_size",
+  "tab_3_tab",
+  "coil_type",
+  "fin_length_fl_mm",
+  "fin_height_fh_mm",
+  "number_of_rows",
+  "pipe_diameter",
+  "coil_casing",
+  "column_break_txuw",
+  "coil_remarks",
+  "section_break_nvmz",
+  "header_dia",
+  "no_of_circuits",
+  "header_material",
+  "column_break_lgmd"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_i9d8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "SA-AHU-TC-.##-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "no_copy": 1,
+   "options": "SA-AHU-TC-.##-.####",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "application_for",
+   "fieldtype": "Data",
+   "label": "Application for ",
+   "no_copy": 1,
+   "options": "{customer}"
+  },
+  {
+   "fieldname": "certificate_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Certificate Date "
+  },
+  {
+   "fieldname": "section_break_pmcy",
+   "fieldtype": "Section Break",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "sales_order_reference",
+   "fieldtype": "Link",
+   "label": "Sales Order Reference",
+   "options": "Sales Order"
+  },
+  {
+   "fetch_from": "sales_order_reference.customer_name",
+   "fieldname": "customer",
+   "fieldtype": "Data",
+   "label": "Customer"
+  },
+  {
+   "fetch_from": "sales_order_reference.address_display",
+   "fieldname": "customer_address",
+   "fieldtype": "Small Text",
+   "label": "Customer Address"
+  },
+  {
+   "fieldname": "column_break_jewi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "sales_order_reference.po_no",
+   "fieldname": "customer_po",
+   "fieldtype": "Data",
+   "label": "Customer PO "
+  },
+  {
+   "fetch_from": "sales_order_reference.po_no",
+   "fieldname": "customer_po_date",
+   "fieldtype": "Data",
+   "label": "Customer PO Date"
+  },
+  {
+   "fetch_from": "sales_order_reference.work_order",
+   "fieldname": "manufacture_request",
+   "fieldtype": "Link",
+   "label": "Manufacture Request ",
+   "options": "Material Request"
+  },
+  {
+   "fieldname": "section_break_avms",
+   "fieldtype": "Section Break",
+   "label": "AHU Details"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "item_serial_number",
+   "fieldtype": "Data",
+   "label": "Item Serial Number"
+  },
+  {
+   "fieldname": "cfm",
+   "fieldtype": "Data",
+   "label": "CFM"
+  },
+  {
+   "fieldname": "static_pressure_mm_wc",
+   "fieldtype": "Int",
+   "label": "Static Pressure (mm WC)"
+  },
+  {
+   "default": "Horizontal Floor Mounted",
+   "fieldname": "mounting",
+   "fieldtype": "Select",
+   "label": "Mounting",
+   "options": "Horizontal Floor Mounted\nVertical Floor Mounted\nCeiling Suspended"
+  },
+  {
+   "fieldname": "column_break_fhqg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name"
+  },
+  {
+   "default": "AHU Details :\nAHU Model Number - \nAHU Serial Number - \nAHU CFM - ",
+   "fieldname": "item_description",
+   "fieldtype": "Text Editor",
+   "label": "Item Description"
+  },
+  {
+   "fieldname": "section_break_orgh",
+   "fieldtype": "Section Break",
+   "label": "Test Result Summary"
+  },
+  {
+   "fieldname": "test_results_summary",
+   "fieldtype": "Table",
+   "label": "Test Results Summary",
+   "options": "Dehumidifier Test Summary"
+  },
+  {
+   "default": "31.2",
+   "fieldname": "ambient_temperature_degrees_c",
+   "fieldtype": "Data",
+   "label": "Ambient Temperature Degrees C"
+  },
+  {
+   "default": "50.1",
+   "fieldname": "ambient_rh_",
+   "fieldtype": "Data",
+   "label": "Ambient RH %"
+  },
+  {
+   "default": "SA-QC/DHU-RIG00293A",
+   "fieldname": "test_rig_id",
+   "fieldtype": "Data",
+   "label": "Test Rig ID"
+  },
+  {
+   "fieldname": "section_break_bubw",
+   "fieldtype": "Section Break",
+   "label": "SAPL Team"
+  },
+  {
+   "fieldname": "checked_by",
+   "fieldtype": "Link",
+   "label": "Checked by",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "checked_by.employee_name",
+   "fieldname": "checked_by_employee_name",
+   "fieldtype": "Data",
+   "label": "Checked by (Employee Name)"
+  },
+  {
+   "fieldname": "column_break_ypni",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved by",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "approved_by.employee_name",
+   "fieldname": "data_lssc",
+   "fieldtype": "Data",
+   "label": "Approved by (Employee Name)"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "AHU Run Test Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "tab_2_tab",
+   "fieldtype": "Tab Break",
+   "label": "Fan & Motor Details"
+  },
+  {
+   "fieldname": "fan_details_section",
+   "fieldtype": "Section Break",
+   "label": "Fan Details"
+  },
+  {
+   "fieldname": "fan_model",
+   "fieldtype": "Link",
+   "label": "Fan Model",
+   "options": "Item"
+  },
+  {
+   "default": "Nicotra",
+   "fieldname": "fan_make",
+   "fieldtype": "Select",
+   "label": "Fan Make",
+   "options": "Sagar Air\nNicotra\nKruger\nRosenberg"
+  },
+  {
+   "fieldname": "fan_description",
+   "fieldtype": "Text Editor",
+   "label": "Fan Description"
+  },
+  {
+   "fieldname": "column_break_fnev",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fan_rpm",
+   "fieldtype": "Int",
+   "label": "Fan RPM"
+  },
+  {
+   "fieldname": "fan_pulley_size",
+   "fieldtype": "Data",
+   "label": "Fan Pulley Size"
+  },
+  {
+   "fieldname": "fan_serial_number",
+   "fieldtype": "Data",
+   "label": "Fan Serial Number"
+  },
+  {
+   "fieldname": "section_break_pmfp",
+   "fieldtype": "Section Break",
+   "label": "Motor Details"
+  },
+  {
+   "fieldname": "motor_model",
+   "fieldtype": "Link",
+   "label": "Motor Model",
+   "options": "Item"
+  },
+  {
+   "fieldname": "motor_make",
+   "fieldtype": "Select",
+   "label": "Motor Make",
+   "options": "ABB\nCG\nHAVELLS\nWEG\nBHARAT BIJLEE\nKIRLOSKAR\nLHP"
+  },
+  {
+   "fieldname": "motor_serial_number",
+   "fieldtype": "Data",
+   "label": "Motor Serial Number"
+  },
+  {
+   "fieldname": "motor_pulley_size",
+   "fieldtype": "Data",
+   "label": "Motor Pulley Size"
+  },
+  {
+   "fieldname": "column_break_jgci",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "motor_hp",
+   "fieldtype": "Select",
+   "label": "Motor HP",
+   "options": "0.5\n1\n1.5\n2\n3\n4\n5\n7.5\n10\n12.5\n15\n20\n25"
+  },
+  {
+   "fieldname": "motor_poles",
+   "fieldtype": "Select",
+   "label": "Motor Poles",
+   "options": "2 ( 2800 RPM )\n4 ( 1440 RPM )\n6 ( 960 RPM )"
+  },
+  {
+   "fieldname": "motor_full_load_amps",
+   "fieldtype": "Data",
+   "label": "Motor Full Load Amps"
+  },
+  {
+   "fieldname": "motor_running_amps",
+   "fieldtype": "Data",
+   "label": "Motor Running Amps"
+  },
+  {
+   "fieldname": "section_break_cjvx",
+   "fieldtype": "Section Break",
+   "label": "Belt Size"
+  },
+  {
+   "fieldname": "fan_motor_belt_size",
+   "fieldtype": "Data",
+   "label": "Fan Motor Belt Size"
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Coil Details"
+  },
+  {
+   "fieldname": "coil_type",
+   "fieldtype": "Select",
+   "label": "Coil Type",
+   "options": "Chilled Water\nDX\nHot Water\nSteam Coil"
+  },
+  {
+   "fieldname": "fin_length_fl_mm",
+   "fieldtype": "Data",
+   "label": "Fin Length FL (mm)"
+  },
+  {
+   "fieldname": "fin_height_fh_mm",
+   "fieldtype": "Data",
+   "label": "Fin Height FH (mm)"
+  },
+  {
+   "fieldname": "number_of_rows",
+   "fieldtype": "Select",
+   "label": "Number of Rows",
+   "options": "2\n3\n4\n6\n8\n10"
+  },
+  {
+   "fieldname": "pipe_diameter",
+   "fieldtype": "Select",
+   "label": "Pipe Diameter",
+   "options": "1/2 Inch\n3/8 Inch\n5/8 Inch"
+  },
+  {
+   "fieldname": "coil_casing",
+   "fieldtype": "Select",
+   "label": "Coil Casing ",
+   "options": "Cased\nUncased"
+  },
+  {
+   "fieldname": "column_break_txuw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "coil_remarks",
+   "fieldtype": "Text Editor",
+   "label": "Coil Remarks"
+  },
+  {
+   "fieldname": "section_break_nvmz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "header_dia",
+   "fieldtype": "Data",
+   "label": "Header Dia"
+  },
+  {
+   "fieldname": "no_of_circuits",
+   "fieldtype": "Data",
+   "label": "No of Circuits"
+  },
+  {
+   "fieldname": "header_material",
+   "fieldtype": "Data",
+   "label": "Header Material"
+  },
+  {
+   "fieldname": "column_break_lgmd",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-06-26 17:06:56.688363",
+ "modified_by": "Administrator",
+ "module": "Sagarair APP",
+ "name": "AHU Run Test Report",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "prashant@gtksoft.in",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
