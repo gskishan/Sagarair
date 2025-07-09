@@ -238,20 +238,41 @@ doc_events = {
 # ]
 
 fixtures = [
-    # export all records from the Category table
-    {"dt": "Client Script", "filters": [
-        [
-            "module", "=", "Sagarair APP"
+    # Export specific Client Scripts
+    {
+        "dt": "Client Script",
+        "filters": [
+            ["name", "in", [
+                "Proforma Invoice - Tax Rows from Template",
+                "Auto Calculate Item Amounts - Proforma",
+                "Auto Compute Taxes - Proforma Invoice"
+            ]]
         ]
-    ]},
-     #export New Query Report
+    },
+    # Export a specific Report
     {
         "dt": "Report",
         "filters": [
-            [
-                "name", "=", "Out of Stock Items in Work Orders"
-            ]
+            ["name", "=", "Out of Stock Items in Work Orders"]
+        ]
+    },
+    # Export a specific Print Format
+    {
+        "dt": "Print Format",
+        "filters": [
+            ["name", "=", "Proforma_Invoice"]
+        ]
+    },
+    # Export specific Doctypes
+    {
+        "dt": "DocType",
+        "filters": [
+            ["name", "in", ["Proforma Invoice", "Proforma Invoice Item"]]
         ]
     }
-
 ]
+
+override_doctype_class = {
+    "Service Visit Register": "sagarair_app.service_visit_register_override.service_visit_register.CustomServiceVisitRegister"
+}
+
