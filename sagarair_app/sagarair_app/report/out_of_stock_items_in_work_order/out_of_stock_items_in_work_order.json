@@ -1,0 +1,10 @@
+{
+  "doctype": "Report",
+  "name": "Out Of Stock Items In Work Order",
+  "ref_doctype": "Work Order",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "module": "Sagarair App",
+  "roles": [],
+  "is_query_report": false
+}

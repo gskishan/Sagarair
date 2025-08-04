@@ -253,7 +253,7 @@ fixtures = [
     {
         "dt": "Report",
         "filters": [
-            ["name", "=", "Out of Stock Items in Work Orders"]
+            ["name", "in", ["Out of Stock Items in Work Orders", "Out of Stock Items in Work Order"]]
         ]
     },
     # Export a specific Print Format
