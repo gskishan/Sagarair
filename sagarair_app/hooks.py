@@ -237,40 +237,7 @@ doc_events = {
 # 	"sagarair_app.auth.validate"
 # ]
 
-fixtures = [
-    # Export specific Client Scripts
-    {
-        "dt": "Client Script",
-        "filters": [
-            ["name", "in", [
-                "Proforma Invoice - Tax Rows from Template",
-                "Auto Calculate Item Amounts - Proforma",
-                "Auto Compute Taxes - Proforma Invoice"
-            ]]
-        ]
-    },
-    # Export a specific Report
-    {
-        "dt": "Report",
-        "filters": [
-            ["name", "in", ["Out of Stock Items in Work Orders", "Out of Stock Items in Work Order"]]
-        ]
-    },
-    # Export a specific Print Format
-    {
-        "dt": "Print Format",
-        "filters": [
-            ["name", "=", "Proforma_Invoice"]
-        ]
-    },
-    # Export specific Doctypes
-    {
-        "dt": "DocType",
-        "filters": [
-            ["name", "in", ["Proforma Invoice", "Proforma Invoice Item"]]
-        ]
-    }
-]
+
 
 override_doctype_class = {
     "Service Visit Register": "sagarair_app.service_visit_register_override.service_visit_register.CustomServiceVisitRegister"
