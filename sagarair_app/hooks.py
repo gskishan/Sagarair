@@ -20,6 +20,8 @@ scheduler_events = {
 }
 
 
+fixtures = ["Client Script"]
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/sagarair_app/css/sagarair_app.css"
 # app_include_js = "/assets/sagarair_app/js/sagarair_app.js"

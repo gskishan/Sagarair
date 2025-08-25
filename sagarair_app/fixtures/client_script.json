@@ -2,6 +2,72 @@
  {
   "docstatus": 0,
   "doctype": "Client Script",
+  "dt": "Sales Order",
+  "enabled": 1,
+  "modified": "2024-06-14 15:26:36.264078",
+  "module": "Sagarair APP",
+  "name": "Sales Order",
+  "script": "frappe.ui.form.on('Sales Order', {\r\n\trefresh(frm) {\r\n\r\n        cur_frm.add_custom_button(__('Create Customer Feedback'), function() {\r\n            frappe.model.with_doctype('Customer  Feedback', function() {\r\n                var feedback = frappe.model.get_new_doc('Customer  Feedback');\r\n                feedback.sales_order = cur_frm.doc.name;\r\n                feedback.customer_name = cur_frm.doc.customer_name;\r\n                feedback.customer = cur_frm.doc.customer;\r\n                frappe.set_route('Form', feedback.doctype, feedback.name);\r\n            });\r\n        }, __(\"Create\"));\r\n    }\r\n});\r\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Customer Feedback",
+  "enabled": 0,
+  "modified": "2024-06-12 21:27:04.857600",
+  "module": null,
+  "name": "Customer Feedback",
+  "script": "frappe.ui.form.on('Customer Feedback', {\n\trefresh(frm) {\n\tif (cur_frm.doc.sales_order && cur_frm.is_new()) {\n    frappe.db.get_doc('Sales Order', cur_frm.doc.sales_order)\n        .then(doc => {\n\n            doc.items.forEach(function (item) {\n                var feedback_item = cur_frm.add_child(\"items\");\n                feedback_item.item_code = item.item_code;\n                feedback_item.item_name = item.item_name;\n                feedback_item.qty = item.qty;\n                feedback_item.rate = item.rate;\n                feedback_item.description = item.description;\n                feedback_item.uom = item.uom;\n                 feedback_item.amount = item.amount;\n                feedback_item.delivery_date = item.delivery_date;\n\n\n            });\n            cur_frm.refresh_fields()\n\n        })\n}\n\t}\n})",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Job Card",
+  "enabled": 1,
+  "modified": "2024-06-21 11:17:28.571055",
+  "module": null,
+  "name": "Job Card",
+  "script": "frappe.ui.form.on('Job Card Time Log', {\n    time_in_mins(frm, cdt, cdn) {\n        let row = frappe.get_doc(cdt, cdn);\n        console.log(frm.doc.time_logs)\n        let time = 0\n        for (let i=0;i< frm.doc.time_logs.length;i++){\n            time += frm.doc.time_logs[i].time_in_mins\n        }\n        frm.set_value(\"custom_total_time_in_mins\",time)\n    }\n})\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Packing Slip",
+  "enabled": 1,
+  "modified": "2024-07-31 15:34:56.927372",
+  "module": "Sagarair APP",
+  "name": "Packing list",
+  "script": "frappe.ui.form.on('Packing Slip', {\n    refresh: function(frm) {\n        let packetCount = 0;\n        let quantityCount = 0;\n    \n        if (frm.doc.custom_packing_list_items) {\n            frm.doc.custom_packing_list_items.forEach(item => {\n                packetCount += item.pkts || 0;\n                quantityCount += item.qty || 0;\n            });\n        }\n        frm.set_value('custom_toatal_pkts', packetCount);\n        frm.set_value('custom_total_qty', quantityCount);\n    }\n});\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Stock Entry",
+  "enabled": 0,
+  "modified": "2025-02-07 10:56:50.150791",
+  "module": null,
+  "name": "Stock Entry",
+  "script": "frappe.ui.form.on(\"Stock Entry\", {\n    before_submit: function(frm) {\n        // Check if the Stock Entry type is not 'Material Receipt'\n        if (frm.doc.purpose !== \"Material Receipt\") {\n            let items_to_request = [];\n\n            frm.doc.items.forEach((item) => {\n                frappe.call({\n                    method: \"frappe.client.get_value\",\n                    args: {\n                        doctype: \"Bin\",\n                        filters: {\n                            item_code: item.item_code,\n                            warehouse: item.s_warehouse || item.t_warehouse,\n                        },\n                        fieldname: \"actual_qty\"\n                    },\n                    callback: function(r) {\n                        if (r.message) {\n                            let available_qty = r.message.actual_qty || 0;\n                            if (available_qty < item.qty) {\n                                items_to_request.push({\n                                    item_code: item.item_code,\n                                    item_name: item.item_name,\n                                    required_qty: item.qty - available_qty\n                                });\n                            }\n                        }\n                    },\n                    async: false\n                });\n            });\n\n            if (items_to_request.length > 0) {\n                // Create an HTML table to display the items in the popup\n                let message = `<p><b>The following items are not available in sufficient quantity:</b></p>\n                               <table class=\"table table-bordered\">\n                                   <thead>\n                                       <tr>\n                                           <th><b>Item Code</b></th>\n                                           <th><b>Item Name</b></th>\n                                           <th><b>Requested Quantity</b></th>\n                                       </tr>\n                                   </thead>\n                                   <tbody>`;\n                \n                items_to_request.forEach(item => {\n                    message += `<tr>\n                                    <td>${item.item_code}</td>\n                                    <td>${item.item_name}</td>\n                                    <td>${item.required_qty}</td>\n                                </tr>`;\n                });\n                \n                message += `</tbody></table><p>Do you want to create a Material Request for these items?</p>`;\n\n                frappe.confirm(\n                    message,\n                    function() {\n                        create_material_request(frm, items_to_request); // Create Material Request and redirect\n                    },\n                    function() {\n                        frappe.msgprint(\"Stock Entry submission canceled.\");\n                        frappe.validated = false;\n                    }\n                );\n            }\n        }\n    }\n});\n\nfunction create_material_request(frm, items) {\n    frappe.call({\n        method: \"frappe.client.insert\",\n        args: {\n            doc: {\n                doctype: \"Material Request\",\n                material_request_type: \"Purchase\",\n                items: items.map(item => ({\n                    item_code: item.item_code,\n                    qty: item.required_qty,\n                    warehouse: \"Stores - SAPL\",  // Set the target warehouse for each item\n                    schedule_date: frappe.datetime.now_date()\n                }))\n            }\n        },\n        callback: function(response) {\n            // Redirect to the new Material Request document immediately\n            frappe.set_route(\"Form\", \"Material Request\", response.message.name);\n        }\n    });\n}",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Service Visit Register",
+  "enabled": 1,
+  "modified": "2024-02-16 14:17:28.154941",
+  "module": "Sagarair APP",
+  "name": "Service_Visit_Register",
+  "script": "frappe.ui.form.on('Service Visit Register', {\n    refresh: function(frm) {\n        frm.add_custom_button(__('Calculate To Pay'), function() {\n            // Get the 'advancetaken' and 'total_expense' values\n            var advancetaken = frm.doc.advancetaken || 0;\n            var totalExpense = frm.doc.total_expense || 0;\n\n            // Calculate 'to_pay' by subtracting 'advancetaken' from 'total_expense'\n            var toPay = totalExpense - advancetaken;\n\n            // Update the 'to_pay' field\n            frm.set_value('to_pay', toPay);\n        });\n\n         // Add a custom button to trigger the calculation\n         frm.add_custom_button(__('Calculate Total Expense'), function() {\n            calculateTotalExpense(frm);\n        });\n\n        frm.fields_dict['service_visit_manday_reporting'].grid.get_field('technician_cost').get_query = function(doc, cdt, cdn) {\n            var row = locals[cdt][cdn];\n            return {\n                filters: {\n                    'monthly_wages': row.monthly_wages,\n                    'number_of_days_worked': row.number_of_days_worked,\n                    'extra_days_absent': row.extra_days_absent,\n                }\n            };\n        };\n\n        // Add a custom button to trigger the calculation\n        frm.add_custom_button(__('Calculate Total Service Cost'), function() {\n            calculateTotalServiceCost(frm);\n        });\n\n        // Add a custom button to trigger the calculation\n        frm.add_custom_button(__('Calculate Total Technician Cost'), function() {\n            calculateTotalTechnicianCost(frm);\n        });\n\n    },\n    sales_order_reference: function(frm) {\n        // Listen for changes in the Sales Order Reference field\n        // Fetch and set data when the Sales Order Reference changes\n        fetch_and_set_sales_order_data(frm);\n    }\n});\n\n\nfunction calculateTotalExpense(frm) {\n    let totalExpense = 0;\n\n    frm.doc.expense_reporting.forEach(function(row) {\n        totalExpense += row.cost || 0;\n    });\n\n    frm.set_value('total_expense', totalExpense);\n    frm.refresh_field('total_expense');\n}\n\n\nfunction fetch_and_set_sales_order_data(frm) {\n    var sales_order_reference = frm.doc.sales_order_reference;\n    if (sales_order_reference) {\n        frappe.call({\n            method: 'frappe.client.get',\n            args: {\n                doctype: 'Sales Order',\n                name: sales_order_reference,\n                filters: {\n                    fields: ['items']\n                }\n            },\n            callback: function(r) {\n                if (r.message && r.message.items) {\n                    var items = r.message.items;\n                    var purpose_table = frm.doc.purposes || [];\n                    \n                    // Clear existing rows in the child table\n                    purpose_table.splice(0, purpose_table.length);\n                    \n                    // Loop through the fetched data and add it to the 'purposes' table\n                    $.each(items, function(i, item) {\n                        var child_row = frappe.model.add_child(frm.doc, 'Service Visit Purpose', 'purposes');\n                        child_row.item_code = item.item_code;\n                        child_row.item_name = item.item_name;\n                        child_row.description = item.description;\n                    });\n\n                    frm.refresh_field('purposes');\n                }\n            }\n        });\n    }\n}\n\nfunction calculateTotalServiceCost(frm) {\n    // Get the values of the custom fields\n    var totalTechnicianCost = frm.doc.total_technician_cost || 0;\n    var totalExpense = frm.doc.total_expense || 0;\n\n    // Calculate the total service cost\n    var totalServiceCost = totalTechnicianCost + totalExpense;\n\n    // Update the 'total_service_cost' field with the calculated total\n    frm.set_value('total_service_cost', totalServiceCost);\n    frm.refresh_field('total_service_cost');\n}\n\nfunction calculateTotalTechnicianCost(frm) {\n    let totalTechnicianCost = 0;\n\n    if (frm.doc.service_visit_manday_reporting){\n\n        frm.doc.service_visit_manday_reporting.forEach(function(row) {\n            totalTechnicianCost += row.technician_cost || 0;\n        });\n    }\n\n    frm.set_value('total_technician_cost', totalTechnicianCost);\n    frm.refresh_field('total_technician_cost');\n}\n\n\n\nfrappe.ui.form.on('Service Visit Manday Reporting', {\n    monthly_wages: function(frm, cdt, cdn) {\n        calculateTechnicianCost(frm, cdt, cdn);\n    },\n    number_of_days_worked: function(frm, cdt, cdn) {\n        calculateTechnicianCost(frm, cdt, cdn);\n    },\n    extra_days_absent: function(frm, cdt, cdn) {\n        calculateTechnicianCost(frm, cdt, cdn);\n    }\n});\n\nfunction calculateTechnicianCost(frm, cdt, cdn) {\n    var row = locals[cdt][cdn];\n    if (row.monthly_wages && row.number_of_days_worked && row.extra_days_absent) {\n        var mw = row.monthly_wages;\n        var nd = row.number_of_days_worked;\n        var ex = row.extra_days_absent;\n        var technician_cost = (mw / 26) * nd * 1.5 + ex * (mw / 26);\n        frappe.model.set_value(cdt, cdn, 'technician_cost', technician_cost);\n    } else {\n        frappe.model.set_value(cdt, cdn, 'technician_cost', 0);\n    }\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
   "dt": "Proforma Invoice",
   "enabled": 1,
   "modified": "2025-07-09 14:12:46.775238",
@@ -30,6 +96,17 @@
   "module": "Sagarair APP",
   "name": "Auto Compute Taxes - Proforma Invoice",
   "script": "frappe.ui.form.on('Sales Taxes and Charges', {\n    rate: function(frm, cdt, cdn) {\n        calculate_cumulative_tax(frm);\n    }\n});\n\nfrappe.ui.form.on('Proforma Invoice', {\n    validate: function(frm) {\n        calculate_cumulative_tax(frm);\n    }\n});\n\nasync function calculate_cumulative_tax(frm) {\n    let net_total = frm.doc.net_total || 0;\n    let total_taxes = 0;\n    let previous_total = net_total;\n\n    for (const row of frm.doc.sales_taxes_and_charges || []) {\n        if (row.rate) {\n            // Always use net_total to calculate amount\n            const amount = (row.rate / 100) * net_total;\n\n            // First row: total = net_total + amount\n            // Next rows: total = previous_total + amount\n            const row_total = previous_total + amount;\n\n            await frappe.model.set_value(row.doctype, row.name, 'tax_amount', amount);\n            await frappe.model.set_value(row.doctype, row.name, 'total', row_total);\n\n            previous_total = row_total;\n            total_taxes += amount;\n        }\n    }\n\n    frm.set_value(\"total_taxes_and_charges\", total_taxes);\n    frm.set_value(\"grand_total\", previous_total);\n    frm.refresh_field(\"sales_taxes_and_charges\");\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Material Request",
+  "enabled": 1,
+  "modified": "2025-08-25 10:56:52.074151",
+  "module": "Sagarair APP",
+  "name": "Material Request Terms",
+  "script": "frappe.ui.form.on('Material Request', {\n    custom_material_request_terms: function(frm) {\n        if (frm.doc.custom_material_request_terms) {\n            frappe.call({\n                method: \"frappe.client.get\",\n                args: {\n                    doctype: \"Material Request Document Required Template\",\n                    name: frm.doc.custom_material_request_terms\n                },\n                callback: function(r) {\n                    if (r.message) {\n                        const template = r.message;\n\n                        // Clear existing rows in the child table\n                        frm.clear_table(\"custom_terms_and_conditions\");\n\n                        // Loop through rows from template and add to current form\n                        (template.terms || []).forEach(function(row) {  // use the correct child table fieldname\n                            let new_row = frm.add_child(\"custom_terms_and_conditions\");\n                            new_row.terms = row.terms;\n                            new_row.terms_value = row.terms_value;\n                        });\n\n                        frm.refresh_field(\"custom_terms_and_conditions\");\n                    }\n                }\n            });\n        }\n    }\n});\n",
   "view": "Form"
  }
 ]

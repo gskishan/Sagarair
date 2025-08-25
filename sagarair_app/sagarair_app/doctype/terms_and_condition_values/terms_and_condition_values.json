@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-25 10:33:49.938402",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "terms",
+  "column_break_jrwn",
+  "terms_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "terms",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Terms",
+   "options": "Terms"
+  },
+  {
+   "fieldname": "column_break_jrwn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "terms_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Terms Value"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-25 10:41:52.771805",
+ "modified_by": "Administrator",
+ "module": "Sagarair APP",
+ "name": "Terms and Condition Values",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
