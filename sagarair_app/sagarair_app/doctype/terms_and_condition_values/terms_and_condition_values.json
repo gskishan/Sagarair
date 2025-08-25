@@ -14,7 +14,7 @@
    "fieldname": "terms",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Terms",
+   "label": "Documents",
    "options": "Terms"
   },
   {
@@ -22,17 +22,18 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "terms_value",
-   "fieldtype": "Data",
+   "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Terms Value"
+   "label": "Required"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-25 10:41:52.771805",
+ "modified": "2025-08-25 16:28:42.631839",
  "modified_by": "Administrator",
  "module": "Sagarair APP",
  "name": "Terms and Condition Values",
