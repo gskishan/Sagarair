@@ -243,3 +243,6 @@ override_doctype_class = {
     "Service Visit Register": "sagarair_app.service_visit_register_override.service_visit_register.CustomServiceVisitRegister"
 }
 
+doctype_js = {
+    "Sales Order": "public/js/sales_order.js"
+}
