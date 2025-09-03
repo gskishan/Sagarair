@@ -1,8 +1,9 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-08-25 10:33:49.938402",
+ "creation": "2025-09-03 12:17:22.170330",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "terms",
@@ -33,8 +34,8 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-25 16:28:42.631839",
- "modified_by": "Administrator",
+ "modified": "2025-09-03 13:57:13.332221",
+ "modified_by": "prashant@gtksoft.in",
  "module": "Sagarair APP",
  "name": "Terms and Condition Values",
  "owner": "Administrator",
