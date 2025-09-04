@@ -108,5 +108,16 @@
   "name": "Material Request Terms",
   "script": "frappe.ui.form.on('Material Request', {\n    custom_material_request_terms: function(frm) {\n        if (frm.doc.custom_material_request_terms) {\n            frappe.call({\n                method: \"frappe.client.get\",\n                args: {\n                    doctype: \"Material Request Document Required Template\",\n                    name: frm.doc.custom_material_request_terms\n                },\n                callback: function(r) {\n                    if (r.message) {\n                        const template = r.message;\n\n                        // Clear existing rows in the child table\n                        frm.clear_table(\"custom_terms_and_conditions\");\n\n                        // Loop through rows from template and add to current form\n                        (template.terms || []).forEach(function(row) {  // use the correct child table fieldname\n                            let new_row = frm.add_child(\"custom_terms_and_conditions\");\n                            new_row.terms = row.terms;\n                            new_row.terms_value = row.terms_value;\n                        });\n\n                        frm.refresh_field(\"custom_terms_and_conditions\");\n                    }\n                }\n            });\n        }\n    }\n});\n",
   "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Material Request",
+  "enabled": 1,
+  "modified": "2025-09-04 11:07:56.283671",
+  "module": "Sagarair APP",
+  "name": "Material Required Template Mandatory For Manufacture",
+  "script": "frappe.ui.form.on(\"Material Request\", {\n    onload(frm) {\n        frm.trigger(\"toggle_terms_reqd\");\n    },\n    refresh(frm) {\n        frm.trigger(\"toggle_terms_reqd\");\n    },\n    material_request_type(frm) {\n        frm.trigger(\"toggle_terms_reqd\");\n    },\n    toggle_terms_reqd(frm) {\n        const is_manufacture = frm.doc.material_request_type === \"Manufacture\";\n        frm.toggle_reqd(\"custom_material_request_terms\", is_manufacture);\n    }\n});\n",
+  "view": "Form"
  }
 ]
