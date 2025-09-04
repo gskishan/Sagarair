@@ -4,10 +4,10 @@
   "doctype": "Client Script",
   "dt": "Sales Order",
   "enabled": 1,
-  "modified": "2024-06-14 15:26:36.264078",
+  "modified": "2025-09-04 10:12:21.733141",
   "module": "Sagarair APP",
   "name": "Sales Order",
-  "script": "frappe.ui.form.on('Sales Order', {\r\n\trefresh(frm) {\r\n\r\n        cur_frm.add_custom_button(__('Create Customer Feedback'), function() {\r\n            frappe.model.with_doctype('Customer  Feedback', function() {\r\n                var feedback = frappe.model.get_new_doc('Customer  Feedback');\r\n                feedback.sales_order = cur_frm.doc.name;\r\n                feedback.customer_name = cur_frm.doc.customer_name;\r\n                feedback.customer = cur_frm.doc.customer;\r\n                frappe.set_route('Form', feedback.doctype, feedback.name);\r\n            });\r\n        }, __(\"Create\"));\r\n    }\r\n});\r\n",
+  "script": "frappe.ui.form.on('Sales Order', {\r\n\trefresh(frm) {\r\n\r\n        cur_frm.add_custom_button(__('Create Customer Feedback'), function() {\r\n            frappe.model.with_doctype('Customer  Feedback', function() {\r\n                var feedback = frappe.model.get_new_doc('Customer  Feedback');\r\n                feedback.sales_order = cur_frm.doc.name;\r\n                feedback.customer_name = cur_frm.doc.customer_name;\r\n                feedback.customer = cur_frm.doc.customer;\r\n                feedback.custom_purchase_order_number = cur_frm.doc.po_no;\r\n                feedback.delivery_note_date = cur_frm.doc.delivery_date;\r\n                frappe.set_route('Form', feedback.doctype, feedback.name);\r\n            });\r\n        }, __(\"Create\"));\r\n    }\r\n});\r\n",
   "view": "Form"
  },
  {
