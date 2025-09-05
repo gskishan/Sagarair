@@ -13,15 +13,23 @@ class CustomerFeedback(Document):
 	def validate(self):
 		if self.is_new():
 			self.email_sent=0
-			parameters = ["Quality of the Product/Service", "Clarity On Communication", "Work Completion as per your Requirement", "Complaint Management & Response", "Rework Response Time", "Requesting your suggestion for our improvement if any"]
+			parameters = ["Quality of the Product/Service", "Clarity On Communication", "Work Completion as per your Requirement", "Complaint Management & Response", "Rework Response Time"]
 			for parameter in parameters:
 				child_row = self.append('parameter', {})
 				child_row.parameter = parameter
 
-			products = ["ADP", "Fans", "AHU", "DHU"]
-			for products in products:
+			# Insert Products with Applicable Parameters
+			product_mapping = {
+				"ADP": [1, 2, 3, 6],
+				"Fans": [1, 2, 3, 6],
+				"AHU": [1, 2, 3, 4, 5, 6],
+				"DHU": [1, 2, 3, 4, 5, 6],
+			}
+
+			for product, applicable_params in product_mapping.items():
 				child_row = self.append('products', {})
-				child_row.products = products
+				child_row.products = product
+				child_row.applicable_parameters = ", ".join(map(str, applicable_params))
 	
 	@frappe.whitelist()
 	def send_to_customer(self):

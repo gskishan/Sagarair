@@ -8,7 +8,7 @@
  "field_order": [
   "products",
   "column_break_bxli",
-  "rating"
+  "applicable_parameters"
  ],
  "fields": [
   {
@@ -22,17 +22,17 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "rating",
-   "fieldtype": "Rating",
+   "fieldname": "applicable_parameters",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Rating"
+   "label": "Applicable Parameters"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-09-05 13:27:40.388366",
+ "modified": "2025-09-05 15:34:41.365082",
  "modified_by": "Administrator",
  "module": "Sagarair APP",
  "name": "Products",

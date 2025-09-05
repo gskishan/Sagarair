@@ -16,6 +16,7 @@
   "section_break_gbcco",
   "items",
   "parameter",
+  "requesting_your_suggestion_for_our_improvement__if_any",
   "products",
   "attach",
   "email_id",
@@ -99,6 +100,11 @@
    "fieldtype": "Table",
    "label": "Products",
    "options": "Products"
+  },
+  {
+   "fieldname": "requesting_your_suggestion_for_our_improvement__if_any",
+   "fieldtype": "Data",
+   "label": "Requesting your suggestion for our improvement  if any"
   }
  ],
  "grid_page_length": 50,
@@ -109,7 +115,7 @@
    "link_fieldname": "feedback"
   }
  ],
- "modified": "2025-09-05 13:30:35.530073",
+ "modified": "2025-09-05 15:28:15.706272",
  "modified_by": "Administrator",
  "module": "Sagarair APP",
  "name": "Customer  Feedback",
