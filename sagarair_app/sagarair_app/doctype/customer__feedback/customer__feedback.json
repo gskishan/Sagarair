@@ -16,6 +16,7 @@
   "section_break_gbcco",
   "items",
   "parameter",
+  "products",
   "attach",
   "email_id",
   "email_sent",
@@ -92,6 +93,12 @@
    "fieldname": "customer",
    "fieldtype": "Data",
    "label": "Customer"
+  },
+  {
+   "fieldname": "products",
+   "fieldtype": "Table",
+   "label": "Products",
+   "options": "Products"
   }
  ],
  "grid_page_length": 50,
@@ -102,7 +109,7 @@
    "link_fieldname": "feedback"
   }
  ],
- "modified": "2025-09-04 10:49:13.349200",
+ "modified": "2025-09-05 13:30:35.530073",
  "modified_by": "Administrator",
  "module": "Sagarair APP",
  "name": "Customer  Feedback",
