@@ -1,8 +1,14 @@
-// Copyright (c) 2026, GS Kishan and contributors
-// For license information, please see license.txt
-
 frappe.query_reports["Warehouse Balance Summary"] = {
 	filters: [
+		{
+			fieldname: "company",
+			label: __("Company"),
+			fieldtype: "Link",
+			options: "Company",
+			width: "80",
+			reqd: 1,
+			default: "Sagar Air Private Limited",
+		},
 		{
 			fieldname: "from_date",
 			label: __("From Date"),
