@@ -51,8 +51,8 @@ def reset_all_cal(stock_entry):
 	self=frappe.get_doc("Stock Entry",stock_entry)
 	on_update(self)
 @frappe.whitelist()
-def on_update(self,method=None):
-	if self.work_order and self.docstatus==1:
+def on_update(self, method=None):
+	if self.work_order and self.docstatus == 1:
 		labour = 0
 		power = 0
 		for d in self.additional_costs:
@@ -62,11 +62,11 @@ def on_update(self,method=None):
 				labour += d.amount
 
 		wo = frappe.get_doc("Work Order", self.work_order)
-		wo.db_set("custom_labour_cost",labour, update_modified=False)
+		wo.db_set("custom_labour_cost", labour, update_modified=False)
 		wo.custom_labour_cost = labour
-		wo.db_set("powder_coating",power, update_modified=False)
+		wo.db_set("powder_coating", power, update_modified=False)
 		wo.powder_coating = power
-		
+
 		wo.db_set("raw_material_consumed_cost", self.total_outgoing_value)
 		wo.db_set("additional_costs", self.total_additional_costs)
 		additional_costs = wo.additional_costs or 0
@@ -75,17 +75,20 @@ def on_update(self,method=None):
 		wo.db_set('total_incurred_cost', total_cost, update_modified=False)
 
 		produced_qty = self.fg_completed_qty or wo.produced_qty
-		total_cost_per_unit = total_cost /produced_qty
-		wo.db_set('total_cost_per_unit', total_cost_per_unit, update_modified=False)
-		status=agrigate_costing(wo.sales_order)
+		total_cost_per_unit = 0
+		if produced_qty:
+			total_cost_per_unit = total_cost / produced_qty
+			wo.db_set('total_cost_per_unit', total_cost_per_unit, update_modified=False)
+
+		status = agrigate_costing(wo.sales_order)
 		if status:
-			so=frappe.get_doc("Sales Order",wo.sales_order)
-			so.db_set('raw_material_consumed_cost',self.total_outgoing_value, update_modified=False)
-			so.db_set('labour_cost',wo.custom_labour_cost, update_modified=False)
+			so = frappe.get_doc("Sales Order", wo.sales_order)
+			so.db_set('raw_material_consumed_cost', self.total_outgoing_value, update_modified=False)
+			so.db_set('labour_cost', wo.custom_labour_cost, update_modified=False)
 			so.db_set('powder_coating', wo.powder_coating, update_modified=False)
-			so.db_set('additional_costs',  self.total_additional_costs, update_modified=False)
-			so.db_set('total_incurred_cost',total_cost, update_modified=False)
-			so.db_set('total_cost_per_unit',total_cost_per_unit, update_modified=False)
+			so.db_set('additional_costs', self.total_additional_costs, update_modified=False)
+			so.db_set('total_incurred_cost', total_cost, update_modified=False)
+			so.db_set('total_cost_per_unit', total_cost_per_unit, update_modified=False)
 
 
 		
