@@ -1,15 +1,24 @@
 import frappe
 from frappe import _
+from frappe.utils import fmt_money
+
+COMPANIES = [
+	"Sagar Air Private Limited",
+	"Sagar Air Private Limited (Unit 2)",
+]
 
 
 def execute(filters=None):
-	company = filters.get("company")
-	if not company:
-		frappe.throw(_("Please select a Company"))
+	company_warehouses = {
+		company: get_warehouses(company) for company in COMPANIES
+	}
 
-	warehouses = get_warehouses(company)
-	columns = get_columns(warehouses)
-	data = get_data(filters, warehouses)
+	max_count = max(
+		(len(whs) for whs in company_warehouses.values()), default=0
+	)
+
+	columns = get_columns(max_count)
+	data = get_data(filters, company_warehouses)
 	return columns, data
 
 
@@ -22,22 +31,23 @@ def get_warehouses(company):
 	)
 
 
-def get_columns(warehouses):
+def get_columns(max_count):
 	columns = [
 		{
 			"label": _(""),
 			"fieldname": "label",
 			"fieldtype": "Data",
-			"width": 150,
+			"width": 180,
 		},
 	]
 
-	for idx, wh in enumerate(warehouses):
+	for idx in range(max_count):
 		columns.append(
 			{
-				"label": _(wh),
+				"label": "",
 				"fieldname": "wh_{}".format(idx),
-				"fieldtype": "Currency",
+				"fieldtype": "Data",
+				"align": "right",
 				"width": 160,
 			}
 		)
@@ -45,11 +55,51 @@ def get_columns(warehouses):
 	return columns
 
 
-def get_data(filters, warehouses):
-	if not warehouses:
-		return []
-
+def get_data(filters, company_warehouses):
 	to_date = filters.get("to_date")
+
+	all_warehouses = []
+	for whs in company_warehouses.values():
+		all_warehouses.extend(whs)
+
+	warehouse_balance = get_warehouse_balances(to_date, all_warehouses)
+
+	data = []
+
+	for company, warehouses in company_warehouses.items():
+		currency = frappe.get_cached_value("Company", company, "default_currency")
+
+		# Section header
+		data.append({"label": company, "bold": 1})
+
+		if not warehouses:
+			data.append({"label": _("No warehouses found")})
+			data.append({})
+			continue
+
+		# Warehouse names row (acts as column headers for this section)
+		wh_row = {"label": _("Warehouse"), "bold": 1}
+		for idx, wh in enumerate(warehouses):
+			wh_row["wh_{}".format(idx)] = wh
+		data.append(wh_row)
+
+		# Balance row
+		balance_row = {"label": _("Total Balance Value")}
+		for idx, wh in enumerate(warehouses):
+			balance_row["wh_{}".format(idx)] = fmt_money(
+				warehouse_balance.get(wh, 0), currency=currency
+			)
+		data.append(balance_row)
+
+		# Spacer between sections
+		data.append({})
+
+	return data
+
+
+def get_warehouse_balances(to_date, warehouses):
+	if not warehouses:
+		return {}
 
 	balance_data = frappe.db.sql(
 		"""
@@ -73,10 +123,4 @@ def get_data(filters, warehouses):
 		as_dict=True,
 	)
 
-	warehouse_balance = {d.warehouse: d.balance_value for d in balance_data}
-
-	row = {"label": "Total Balance Value"}
-	for idx, wh in enumerate(warehouses):
-		row["wh_{}".format(idx)] = warehouse_balance.get(wh, 0)
-
-	return [row]
+	return {d.warehouse: d.balance_value for d in balance_data}
