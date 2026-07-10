@@ -29,6 +29,12 @@ frappe.query_reports["Expected vs Actual Operation time"] = {
 			},
 		},
 		{
+			fieldname: "employee",
+			label: __("Employee"),
+			fieldtype: "Link",
+			options: "Employee",
+		},
+		{
 			fieldname: "start_date",
 			label: __("Start Date"),
 			fieldtype: "Date",
@@ -39,4 +45,22 @@ frappe.query_reports["Expected vs Actual Operation time"] = {
 			fieldtype: "Date",
 		},
 	],
+
+	formatter: function (value, row, column, data, default_formatter) {
+		value = default_formatter(value, row, column, data);
+		if (
+			column.fieldname === "employee_name" &&
+			data &&
+			data.employee &&
+			value
+		) {
+			value =
+				'<a href="/app/employee/' +
+				encodeURIComponent(data.employee) +
+				'">' +
+				value +
+				"</a>";
+		}
+		return value;
+	},
 };
