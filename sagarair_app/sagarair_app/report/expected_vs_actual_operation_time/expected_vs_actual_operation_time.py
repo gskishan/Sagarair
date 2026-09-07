@@ -245,8 +245,6 @@ def get_data(filters):
 					"work_order": work_order,
 					"operation": operation,
 					"job_card_status": status,
-					# employee kept in row data (not a column) so the
-					# JS formatter can build the link
 					"employee": emp,
 					"employee_name": employee_names.get(emp, ""),
 					"estimated_time": est,
@@ -254,5 +252,32 @@ def get_data(filters):
 					"difference": est - act,
 				}
 			)
+
+	# Totals row — sum unique (work_order, operation) pairs only, so
+	# operations with multiple employees don't get double-counted.
+	seen_keys = set()
+	total_estimated = 0
+	total_actual = 0
+
+	for row in data:
+		key = (row["work_order"], row["operation"])
+		if key not in seen_keys:
+			seen_keys.add(key)
+			total_estimated += row["estimated_time"] or 0
+			total_actual += row["actual_time"] or 0
+
+	if data:
+		data.append(
+			{
+				"work_order": "Total",
+				"operation": "",
+				"job_card_status": "",
+				"employee": None,
+				"employee_name": "",
+				"estimated_time": total_estimated,
+				"actual_time": total_actual,
+				"difference": total_estimated - total_actual,
+			}
+		)
 
 	return data
