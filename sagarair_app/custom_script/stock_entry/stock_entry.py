@@ -1,8 +1,8 @@
-
+ 
 import frappe
 from frappe import _
-
-
+ 
+ 
 from erpnext.stock.doctype.stock_entry.stock_entry import  StockEntry
 from erpnext.stock.doctype.stock_entry.stock_entry import *
 from erpnext.manufacturing.doctype.bom.bom import (
@@ -13,9 +13,10 @@ from frappe.utils import (
 	cint,
 	
 )
-
+ 
 class CustomStockEntry(StockEntry):
-	pass
+	def _should_cap_completed_qty(self):
+		return False
 
 # def on_submit(self,method=None):
 # 	if self.work_order and self.stock_entry_type=="Material Consumption for Manufacture":
