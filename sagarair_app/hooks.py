@@ -244,10 +244,12 @@ doc_events = {
 
 
 
-override_doctype_class = {
-    "Service Visit Register": "sagarair_app.service_visit_register_override.service_visit_register.CustomServiceVisitRegister"
-}
 
+override_doctype_class = {
+    "Service Visit Register": "sagarair_app.service_visit_register_override.service_visit_register.CustomServiceVisitRegister",
+    "Stock Entry": "sagarair_app.custom_script.stock_entry.stock_entry.CustomStockEntry",
+    "Work Order": "sagarair_app.custom_script.work_order.work_order.CustomWorkOrder",
+}
 doctype_js = {
     "Sales Order": "public/js/sales_order.js"
 }
